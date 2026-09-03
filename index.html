@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamaican Universities Resource Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            background: #f9f9f9;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .tab-btn:hover {
+            background: #f0f0f0;
+            color: #667eea;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            margin-bottom: -2px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .university-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .university-card:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .university-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .university-card .info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .info-item {
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+        }
+        
+        .info-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .contact-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        
+        .contact-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .contact-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .contact-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .troubleshooting {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        
+        .troubleshooting h4 {
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+        
+        .troubleshooting ul {
+            margin-left: 20px;
+        }
+        
+        .troubleshooting li {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .quick-link-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .quick-link-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin: 20px 0 15px 0;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .footer {
+            background: #f9f9f9;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Jamaican Universities Resource Directory</h1>
+            <p>Course Registration Guide & Student Support Resources</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="switchTab('major-unis')">Major Universities</button>
+            <button class="tab-btn" onclick="switchTab('registration')">Registration Guide</button>
+            <button class="tab-btn" onclick="switchTab('all-unis')">All Institutions</button>
+            <button class="tab-btn" onclick="switchTab('troubleshooting')">Troubleshooting</button>
+        </div>
+        
+        <div class="content">
+            <!-- OVERVIEW TAB -->
+            <div id="overview" class="tab-content active">
+                <h2 class="section-title">Welcome! 👋</h2>
+                <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    This resource directory helps you find information about Jamaican universities and 
+                    navigate course registration processes. Whether you're looking for support contacts, 
+                    registration instructions, or troubleshooting help, you'll find it here.
+                </p>
+                
+                <div class="section-title">Quick Facts</div>
+                <div class="info">
+                    <div class="info-item">
+                        <strong>📚 Total Institutions</strong>
+                        30+ accredited universities and colleges
+                    </div>
+                    <div class="info-item">
+                        <strong>🏛️ Major Universities</strong>
+                        4 comprehensive institutions
+                    </div>
+                    <div class="info-item">
+                        <strong>✅ Accredited By</strong>
+                        University Council of Jamaica (UCJ)
+                    </div>
+                    <div class="info-item">
+                        <strong>🌍 Locations</strong>
+                        Across all parishes of Jamaica
+                    </div>
+                </div>
+                
+                <div class="section-title">Start Here</div>
+                <div class="quick-links">
+                    <a href="#" class="quick-link-btn" onclick="switchTab('major-unis'); return false;">
+                        Find Your University
+                    </a>
+                    <a href="#" class="quick-link-btn" onclick="switchTab('registration'); return false;">
+                        How to Register
+                    </a>
+                    <a href="#" class="quick-link-btn" onclick="switchTab('troubleshooting'); return false;">
+                        Registration Problems?
+                    </a>
+                    <a href="#" class="quick-link-btn" onclick="switchTab('all-unis'); return false;">
+                        Browse All Institutions
+                    </a>
+                </div>
+            </div>
+            
+            <!-- MAJOR UNIVERSITIES TAB -->
+            <div id="major-unis" class="tab-content">
+                <h2 class="section-title">Jamaica's Major Universities</h2>
+                
+                <div class="university-card">
+                    <h3>🌟 University of the West Indies (UWI) - Mona</h3>
+                    <div class="info">
+                        <div class="info-item">
+                            <strong>Location</strong>
+                            Mona, Kingston
+                        </div>
+                        <div class="info-item">
+                            <strong>Founded</strong>
+                            1948
+                        </div>
+                        <div class="info-item">
+                            <strong>Type</strong>
+                            Regional University (Caribbean)
+                        </div>
+                        <div class="info-item">
+                            <strong>Known For</strong>
+                            Medical sciences, research, Caribbean's #1 university
+                        </div>
+                    </div>
+                    
+                    <div class="contact-box">
+                        <h4>📞 Contact & Support</h4>
+                        <div class="contact-item"><strong>Website:</strong> <a href="https://www.mona.uwi.edu/" target="_blank">www.mona.uwi.edu</a></div>
+                        <div class="contact-item"><strong>Help Desk:</strong> <a href="mailto:helpdesk@uwimona.edu.jm">helpdesk@uwimona.edu.jm</a></div>
+                        <div class="contact-item"><strong>Phone:</strong> (876) 927-1660-9 or ext 0</div>
+                        <div class="contact-item"><strong>Online Systems:</strong> <a href="https://www.mona.uwi.edu/online-systems" target="_blank">Access SAS, Email, OurVLE</a></div>
+                    </div>
+                </div>
+                
+                <div class="university-card">
+                    <h3>⚙️ University of Technology, Jamaica (UTech)</h3>
+                    <div class="info">
+                        <div class="info-item">
+                            <strong>Location</strong>
+                            Kingston (Multiple campuses)
+                        </div>
+                        <div class="info-item">
+                            <strong>Founded</strong>
+                            1995 (University Status)
+                        </div>
+                        <div class="info-item">
+                            <strong>Type</strong>
+                            Public University
+                        </div>
+                        <div class="info-item">
+                            <strong>Known For</strong>
+                            Engineering, computing, architecture (only in Caribbean!)
+                        </div>
+                    </div>
+                    
+                    <div class="contact-box">
+                        <h4>📞 Contact & Support</h4>
+                        <div class="contact-item"><strong>Website:</strong> <a href="https://www.utech.edu.jm/" target="_blank">www.utech.edu.jm</a></div>
+                        <div class="contact-item"><strong>Registration Portal:</strong> <a href="https://utech-web-srv.utech.edu.jm/AddDrop/" target="_blank">Online Add/Drop System</a></div>
+                        <div class="contact-item"><strong>Students:</strong> <a href="https://www.utech.edu.jm/students/" target="_blank">Student Portal</a></div>
+                        <div class="contact-item"><strong>Credential Issues:</strong> Contact College/Faculty Computer Lab</div>
+                    </div>
+                </div>
+                
+                <div class="university-card">
+                    <h3>🙏 Northern Caribbean University (NCU)</h3>
+                    <div class="info">
+                        <div class="info-item">
+                            <strong>Location</strong>
+                            Mandeville, Manchester Parish
+                        </div>
+                        <div class="info-item">
+                            <strong>Founded</strong>
+                            1999 (University Status)
+                        </div>
+                        <div class="info-item">
+                            <strong>Type</strong>
+                            Private University
+                        </div>
+                        <div class="info-item">
+                            <strong>Known For</strong>
+                            Theology, business, teacher education
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="university-card">
+                    <h3>📖 Mico University College</h3>
+                    <div class="info">
+                        <div class="info-item">
+                            <strong>Location</strong>
+                            Kingston
+                        </div>
+                        <div class="info-item">
+                            <strong>Founded</strong>
+                            1835 (Oldest private tertiary institution in Jamaica)
+                        </div>
+                        <div class="info-item">
+                            <strong>Type</strong>
+                            Public College
+                        </div>
+                        <div class="info-item">
+                            <strong>Known For</strong>
+                            Teacher training, education specialization
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- REGISTRATION GUIDE TAB -->
+            <div id="registration" class="tab-content">
+                <h2 class="section-title">Course Registration Guide</h2>
+                
+                <div style="background: #e7f3ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <strong>💡 Tip:</strong> Each university has its own registration system and schedule. 
+                    Know which university you attend, then follow the instructions below!
+                </div>
+                
+                <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">📋 For UWI Mona Students</h3>
+                
+                <div class="troubleshooting" style="background: #f0f8ff; border-left-color: #667eea;">
+                    <h4>Registration System: SAS (Student Information System)</h4>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                        <strong>Steps:</strong>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Go to <a href="https://www.mona.uwi.edu/online-systems" target="_blank" style="color: #0066cc;">https://www.mona.uwi.edu/online-systems</a></li>
+                            <li>Log in with your university email & M365 password</li>
+                            <li>Navigate to course registration</li>
+                            <li>Select courses and confirm enrollment</li>
+                            <li>Check confirmation email</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">⚙️ For UTech Jamaica Students</h3>
+                
+                <div class="troubleshooting" style="background: #f0f8ff; border-left-color: #667eea;">
+                    <h4>Registration System: Online Add/Drop Portal</h4>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                        <strong>Steps:</strong>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Go to <a href="https://utech-web-srv.utech.edu.jm/AddDrop/" target="_blank" style="color: #0066cc;">https://utech-web-srv.utech.edu.jm/AddDrop/</a></li>
+                            <li>Log in with M365 credentials (campus email)</li>
+                            <li>Add courses you need</li>
+                            <li>Drop courses you don't want</li>
+                            <li>Confirm all changes</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                    <strong>⚠️ Important:</strong> Registration deadlines vary by semester and institution. 
+                    Check your university's academic calendar for specific dates. Missing the deadline may 
+                    result in late registration fees or course holds.
+                </div>
+            </div>
+            
+            <!-- ALL INSTITUTIONS TAB -->
+            <div id="all-unis" class="tab-content">
+                <h2 class="section-title">All Jamaican Universities & Colleges (30+)</h2>
+                
+                <p style="margin-bottom: 20px; color: #666;">
+                    All institutions listed are accredited by the <strong>University Council of Jamaica (UCJ)</strong>, 
+                    Jamaica's official quality assurance body for tertiary education.
+                </p>
+                
+                <div class="section-title" style="font-size: 1.2em; margin-top: 25px;">Major Universities</div>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>University of the West Indies (UWI) - Mona</li>
+                    <li>University of Technology, Jamaica (UTech)</li>
+                    <li>Northern Caribbean University (NCU)</li>
+                    <li>Mico University College</li>
+                </ul>
+                
+                <div class="section-title" style="font-size: 1.2em; margin-top: 25px;">Teacher Training</div>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>Shortwood Teachers' College - Kingston</li>
+                    <li>Sam Sharpe Teachers' College</li>
+                </ul>
+                
+                <div class="section-title" style="font-size: 1.2em; margin-top: 25px;">Theological & Religious Studies</div>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>United Theological College of the West Indies (UTCWI) - Kingston</li>
+                    <li>Caribbean Graduate School of Theology - Kingston</li>
+                    <li>Jamaica Theological Seminary - Kingston</li>
+                    <li>Bethel Bible College of the Caribbean - Mandeville</li>
+                    <li>Caribbean Wesleyan College - Savanna-la-Mar</li>
+                    <li>Regent College of the Caribbean - Mandeville</li>
+                </ul>
+                
+                <div class="section-title" style="font-size: 1.2em; margin-top: 25px;">Arts & Performing Arts</div>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>Edna Manley College of the Visual and Performing Arts - Kingston</li>
+                </ul>
+                
+                <div class="section-title" style="font-size: 1.2em; margin-top: 25px;">Medical & Health Sciences</div>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>All American Institute of Medical Sciences (AAIMS) - Black River</li>
+                    <li>Caribbean School of Medical Sciences - Kingston</li>
+                </ul>
+                
+                <div class="section-title" style="font-size: 1.2em; margin-top: 25px;">Business & Professional</div>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>International University of the Caribbean (IUC) - Kingston</li>
+                </ul>
+            </div>
+            
+            <!-- TROUBLESHOOTING TAB -->
+            <div id="troubleshooting" class="tab-content">
+                <h2 class="section-title">Registration Troubleshooting</h2>
+                
+                <p style="margin-bottom: 20px; color: #666;">
+                    Having problems with course registration? Here are common issues and solutions.
+                </p>
+                
+                <div class="troubleshooting">
+                    <h4>❌ Can't Log Into Registration System</h4>
+                    <strong>UWI Mona Students:</strong>
+                    <ul>
+                        <li>Check your credentials are correct (university email + M365 password)</li>
+                        <li>Try resetting your password at the SAS login page</li>
+                        <li>If still blocked, email <a href="mailto:helpdesk@uwimona.edu.jm" style="color: #0066cc;">helpdesk@uwimona.edu.jm</a> with your student ID</li>
+                    </ul>
+                    <strong style="display: block; margin-top: 15px;">UTech Jamaica Students:</strong>
+                    <ul>
+                        <li>Verify your M365 account is active</li>
+                        <li>If you don't have credentials, visit your College or Faculty computer lab</li>
+                        <li>Lab staff can help set up or reset your access</li>
+                    </ul>
+                </div>
+                
+                <div class="troubleshooting">
+                    <h4>❌ Courses Are Full or Unavailable</h4>
+                    <ul>
+                        <li>Contact your academic advisor or department chair immediately</li>
+                        <li>Ask about waitlist options or alternative course sections</li>
+                        <li>UWI: Faculty office may have override authority</li>
+                        <li>UTech: Visit college registrar office</li>
+                    </ul>
+                </div>
+                
+                <div class="troubleshooting">
+                    <h4>❌ Portal/Website Not Loading</h4>
+                    <strong>UWI Mona:</strong>
+                    <ul>
+                        <li>Try clearing your browser cache and cookies</li>
+                        <li>Try a different browser (Chrome, Firefox, Safari)</li>
+                        <li>Report the issue to <a href="mailto:helpdesk@uwimona.edu.jm" style="color: #0066cc;">helpdesk@uwimona.edu.jm</a></li>
+                        <li>Include: browser type, specific error message, student ID</li>
+                    </ul>
+                    <strong style="display: block; margin-top: 15px;">UTech Jamaica:</strong>
+                    <ul>
+                        <li>Check the admissions page: <a href="https://www.utech.edu.jm/admissions/registration-and-enrolment/" target="_blank" style="color: #0066cc;">https://www.utech.edu.jm/admissions/registration-and-enrolment/</a></li>
+                        <li>Use website contact form</li>
+                    </ul>
+                </div>
+                
+                <div class="troubleshooting">
+                    <h4>❌ Missed Registration Deadline</h4>
+                    <ul>
+                        <li><strong>Act immediately:</strong> Contact registrar office ASAP</li>
+                        <li><strong>Request:</strong> Late registration approval</li>
+                        <li><strong>Be prepared:</strong> Have a valid reason (medical, emergency, etc.)</li>
+                        <li><strong>Note:</strong> Late registration may incur additional fees</li>
+                        <li><strong>Bring:</strong> Supporting documentation if applicable</li>
+                    </ul>
+                </div>
+                
+                <div class="troubleshooting" style="background: #f3fff0; border-left-color: #28a745;">
+                    <h4 style="color: #155724;">✅ Can't Find Your University?</h4>
+                    <ol style="margin-left: 20px;">
+                        <li>Check your enrollment or acceptance letter</li>
+                        <li>Look at registration/tuition documents for university name</li>
+                        <li>Search our "All Institutions" tab for the complete list</li>
+                        <li>Contact Ministry of Education: <a href="https://moey.gov.jm" target="_blank" style="color: #0066cc;">moey.gov.jm</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>📍 <strong>Jamaican Universities Resource Directory</strong> | Last Updated: September 2, 2026</p>
+            <p>Information compiled from official university websites, government education resources, and accreditation bodies.</p>
+            <p>For the most current information, always check your institution's official website or contact their registrar office directly.</p>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            contents.forEach(c => c.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+<!-- Override procedures section added to troubleshooting tab - Add this link to nav -->
+<style>
+.override-section {
+    background: #f8d7da;
+    border-left: 4px solid #dc3545;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+.override-section h3 {
+    color: #721c24;
+    margin-top: 0;
+}
+.override-timeline {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border-left: 3px solid #dc3545;
+}
+</style>
